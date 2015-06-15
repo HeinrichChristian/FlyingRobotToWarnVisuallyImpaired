@@ -1,0 +1,143 @@
+﻿[cat /data/config.ini
+
+[general]
+num_version_config             = 1
+num_version_mb                 = 34
+num_version_soft               = 2.4.8
+drone_serial                   = PS721003AG3L052944
+soft_build_date                = 2013-09-16 14:49
+motor1_soft                    = 1.43
+motor1_hard                    = 6.0
+motor1_supplier                = 1.1
+motor2_soft                    = 1.43
+motor2_hard                    = 6.0
+motor2_supplier                = 1.1
+motor3_soft                    = 1.43
+motor3_hard                    = 6.0
+motor3_supplier                = 1.1
+motor4_soft                    = 1.43
+motor4_hard                    = 6.0
+motor4_supplier                = 1.1
+ardrone_name                   = My ARDrone
+flying_time                    = 2432
+navdata_demo                   = TRUE
+com_watchdog                   = 2
+video_enable                   = TRUE
+vision_enable                  = TRUE
+vbat_min                       = 9000
+gps_soft                       = 0.0
+gps_hard                       = 0.0
+timezone                       = +0800
+battery_type                   = 0
+gps_soft_update                = 4.1.2-P6
+
+[control]
+accs_offset                    = { -4.1936479e+03 3.8041470e+03 4.0829834e+03 }
+accs_gains                     = {  1.9550196e+00 9.4805144e-02 -9.7676441e-03  7.8259587e-02 -1.9442046e+00 -1.8539310e-02  -3.7120908e-02 -3.7572004e-03 -1.9037731e+00 }
+gyros_offset                   = { -4.4282501e+01 3.1038750e+01 -1.8388750e+01 }
+gyros_gains                    = { 1.0684397e-03 -1.0689500e-03 -1.0675595e-03 }
+gyros110_offset                = { 1.6625000e+03 1.6625000e+03 }
+gyros110_gains                 = { 1.5271631e-03 -1.5271631e-03 }
+magneto_offset                 = { 9.6505623e+01 -2.2411734e+02 0.0000000e+00 }
+magneto_radius                 = 3.6836496e+02
+gyro_offset_thr_x              = 4.0000000e+00
+gyro_offset_thr_y              = 4.0000000e+00
+gyro_offset_thr_z              = 5.0000000e-01
+pwm_ref_gyros                  = 500
+osctun_value                   = 63
+osctun_test                    = TRUE
+altitude_max                   = 2026
+altitude_min                   = 50
+outdoor                        = FALSE
+flight_without_shell           = TRUE
+autonomous_flight              = FALSE
+control_level                  = 0
+euler_angle_max                = 2.5000000e-01
+control_iphone_tilt            = 3.4906584e-01
+control_vz_max                 = 1.0000000e+03
+control_yaw                    = 3.0000000e+00
+manual_trim                    = FALSE
+indoor_euler_angle_max         = 2.5000000e-01
+indoor_control_vz_max          = 1.0000000e+03
+indoor_control_yaw             = 3.0000000e+00
+outdoor_euler_angle_max        = 3.4906584e-01
+outdoor_control_vz_max         = 1.0000000e+03
+outdoor_control_yaw            = 3.4906585e+00
+
+[network]
+ssid_single_player             = ardrone2_052944
+ssid_multi_player              = ardrone2_052944
+wifi_mode                      = 0
+owner_mac                      = 00:00:00:00:00:00
+
+[pic]
+ultrasound_freq                = 8
+ultrasound_watchdog            = 3
+pic_version                    = 184877090
+
+[video]
+camif_fps                      = 30
+camif_buffers                  = 2
+num_trackers                   = 12
+video_on_usb                   = TRUE
+video_file_index               = 2
+codec_fps                      = 30
+exposure_mode                  = 0,0,0,0
+saturation_mode                = 0
+whitebalance_mode              = 0,0
+
+[leds]
+
+[detect]
+enemy_colors                   = 3
+enemy_without_shell            = 0
+groundstripe_colors            = 16
+detect_type                    = 3
+detections_select_h            = 0
+detections_select_v_hsync      = 0
+detections_select_v            = 0
+
+[syslog]
+output                         = 7
+max_size                       = 102400
+nb_files                       = 5
+
+[custom]
+application_desc               = Default application configuration
+profile_desc                   = Default profile configuration
+session_desc                   = Default session configuration
+
+[userbox]
+
+[gps]
+latitude                       = 5.0000000000000000e+02
+longitude                      = 5.0000000000000000e+02
+altitude                       = 0.0000000000000000e+00
+accuracy                       = 0.0000000000000000e+00
+
+[flightplan]
+default_validation_radius      = 3.0000000e+00
+default_validation_time        = 1.0000000e-03
+max_distance_from_takeoff      = 1000
+gcs_ip                         = 3
+video_stop_delay               = 10
+low_battery_go_home            = FALSE
+automatic_heading              = TRUE
+com_lost_action_delay          = 0
+altitude_go_home               = 0.0000000e+00
+mavlink_js_roll_left           = x-
+mavlink_js_roll_right          = x+
+mavlink_js_pitch_front         = y+
+mavlink_js_pitch_back          = y-
+mavlink_js_yaw_left            = 4
+mavlink_js_yaw_right           = 5
+mavlink_js_go_up               = 0
+mavlink_js_go_down             = 1
+mavlink_js_inc_gains           = 6
+mavlink_js_dec_gains           = 7
+mavlink_js_select              = 8
+mavlink_js_start               = 9
+
+[rescue]
+
+# ]

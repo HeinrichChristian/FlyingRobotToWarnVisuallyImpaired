@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/FollowMe.Enums" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/FollowMe.Enums" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="TargetLocation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Unknown" />
+      <xs:enumeration value="TopLeft" />
+      <xs:enumeration value="TopCenter" />
+      <xs:enumeration value="TopRight" />
+      <xs:enumeration value="CenterLeft" />
+      <xs:enumeration value="CenterCenter" />
+      <xs:enumeration value="CenterRight" />
+      <xs:enumeration value="BottomLeft" />
+      <xs:enumeration value="BottomCenter" />
+      <xs:enumeration value="BottomRight" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TargetLocation" nillable="true" type="tns:TargetLocation" />
+</xs:schema>

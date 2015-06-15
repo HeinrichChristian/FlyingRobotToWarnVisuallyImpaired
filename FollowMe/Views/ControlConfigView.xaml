@@ -1,0 +1,17 @@
+﻿<Window x:Class="FollowMe.Views.ControlConfigView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AR.Drone ControlConfig" Height="800" Width="480">
+    <Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+
+            <StackPanel  Orientation="Vertical">
+            <TextBlock x:Name="HeaderWithTimestamp" Foreground="SteelBlue" FontSize="22"></TextBlock>
+            <ScrollViewer Grid.Row="1" Name="svMain" VerticalScrollBarVisibility="Visible">
+
+                <TextBlock x:Name="ControlConfig"></TextBlock>
+            </ScrollViewer>
+        </StackPanel>
+            </ScrollViewer>
+    </Grid>
+</Window>

@@ -1,0 +1,80 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="FollowMe.RemoteControl.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="clr-namespace:FollowMe.RemoteControl.Converter"
+    mc:Ignorable="d"    
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+    <phone:PhoneApplicationPage.Resources>    
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converter:BoolToOpacityConverter x:Key="BoolToOpacityConverter" />
+    </phone:PhoneApplicationPage.Resources>
+            <!--Der Datenkontext wird auf die Beispieldaten (oben) festgelegt. LayoutRoot enthält das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- HINWEIS ZUR LOKALISIERUNG:
+            Um die angezeigten Zeichenfolgen zu lokalisieren, kopieren Sie die Werte in
+            die richtig benannten Schlüssel in der Datei der neutralen Ressourcensprache der App (AppResources.resx), und
+            ersetzen Sie den hartcodierten Textwert zwischen den Anführungszeichen des Attributs
+            mit der Bindungsklausel, deren Pfad auf diesen Zeichenfolgennamen verweist.
+
+            Zum Beispiel:
+
+                Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}"
+
+            Diese Bindung verweist auf die Zeichenfolgenressource der Vorlage mit der Bezeichnung "ApplicationTitle".
+
+            Werden auf der Registerkarte mit den Projekteigenschaften unterstützte Sprachen hinzugefügt, wird
+            pro Sprache eine neue resx-Datei erstellt. In dieser können die übersetzten Werte der
+            Zeichenfolgen der Benutzeroberfläche gespeichert werden. Die Bindung in diesen Beispielen führt dazu, dass der Wert der
+            Attribute aus der RESX-Datei entnommen wird, die
+            CurrentUICulture der App zur Laufzeit entspricht.
+         -->
+
+        <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            
+            <TextBlock Text="FollowMe" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="Remote" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <!--<Button Content="Start" HorizontalAlignment="Left" Margin="20,20,0,20" Grid.Row="1" VerticalAlignment="Top" Width="405" Height="127" Click="ButtonStartClick"/>-->
+
+            <TextBlock Text="Fehler bei Verbindung mit Service" Visibility="{Binding ErrorOccured, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" MaxHeight="600" MaxWidth="450">            
+                <TextBlock Text="{Binding ErrorMessage}" Visibility="{Binding ErrorOccured, Converter={StaticResource BoolToVisibilityConverter}}" Height="6000" TextWrapping="Wrap"/>
+            </ScrollViewer>
+            
+            <StackPanel Visibility="{Binding ErrorOccured, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=VisibleOnFalse}">
+                <Canvas Height="50" Background="Green" Margin="10" Visibility="{Binding PersonDetected, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="40, 10">Person lokalisiert</TextBlock>
+                        <TextBlock Margin="10" Text="{Binding PersonLocation}"></TextBlock>
+                    </StackPanel>
+                </Canvas>
+                <Canvas Height="50" Background="Darkred" Margin="10" Visibility="{Binding PersonDetected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=VisibleOnFalse}">
+                    <TextBlock Margin="40, 10">Person nicht lokalisiert</TextBlock>
+                </Canvas>
+
+                <Canvas Height="150" Background="Red" Margin="10" Opacity="{Binding DangerDetected, Converter={StaticResource BoolToOpacityConverter}}">
+                    <StackPanel>                        
+                        <TextBlock FontSize="60" Margin="60,30,0,0">G E F A H R</TextBlock>
+                        <TextBlock Margin="60,0" HorizontalAlignment="Center" Text="{Binding DangerLocation, FallbackValue='Unknown'}" />
+                    </StackPanel>
+                </Canvas>
+                <Button Content="Stop" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20" Grid.Row="1" Width="405" Height="327" Click="ButtonStopClick"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+
+</phone:PhoneApplicationPage>

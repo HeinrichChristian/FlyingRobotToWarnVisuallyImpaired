@@ -1,0 +1,431 @@
+﻿<Window x:Class="FollowMe.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converter="clr-namespace:FollowMe.Converter"
+        xmlns:followMe="clr-namespace:FollowMe"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+
+        Title="AR.Drone Follow Me" Height="640" Width="1027"
+        ResizeMode="CanMinimize">
+    <Window.Resources>
+        <converter:BatteryValueToColorConverter x:Key="BatteryValueToColorConverter" />
+        <converter:StringToRedOrGreenConverter x:Key="StringToRedOrGreenConverter" />
+        <converter:InvertBoolConverter x:Key="InvertBoolConverter"></converter:InvertBoolConverter>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid>
+            <TabControl HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="1017" Height="563">
+                <TabItem Header="Joystick wählen">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--<Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="80" Margin="788,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>-->
+
+
+                        <!--<Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="80" Margin="788,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>-->
+                        <ComboBox x:Name="AvailableJoystickDevices" SelectedItem="{Binding SelectedJoystickDevice}" HorizontalAlignment="Left" Margin="118,19,0,0" VerticalAlignment="Top" Width="228" 
+                   DisplayMemberPath="Name" SelectedValuePath="Name"/>
+                        <Label Content="Joysticks" HorizontalAlignment="Left" Margin="36,19,0,0" VerticalAlignment="Top"/>
+                        <Button x:Name="ButtonRefreshJoysticks" Content="aktualisieren" HorizontalAlignment="Left" Margin="365,19,0,0" VerticalAlignment="Top" Width="75" />
+                        <CheckBox x:Name="Button1Pressed" IsEnabled="False" IsChecked="{Binding Button1Pressed, Mode=OneWay}" Content="1 - Rotes LED-Blinken (10sec)" HorizontalAlignment="Left" Margin="677,55,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                        <CheckBox x:Name="Button2Pressed" IsEnabled="False" IsChecked="{Binding Button2Pressed, Mode=OneWay}" Content="2 - Set flat trim - vor Takeoff ausführen" HorizontalAlignment="Left" Margin="677,75,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                        <CheckBox x:Name="Button3Pressed" IsEnabled="False" IsChecked="{Binding Button3Pressed, Mode=OneWay}" Content="3" HorizontalAlignment="Left" Margin="677,95,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                        <CheckBox x:Name="Button4Pressed" IsEnabled="False" IsChecked="{Binding Button4Pressed, Mode=OneWay}" Content="4" HorizontalAlignment="Left" Margin="677,115,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                        <CheckBox x:Name="Button5Pressed" IsEnabled="False" IsChecked="{Binding Button5Pressed, Mode=OneWay}" Content="5" HorizontalAlignment="Left" Margin="677,136,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                        <CheckBox x:Name="Button6Pressed" IsEnabled="False" IsChecked="{Binding Button6Pressed, Mode=OneWay}" Content="6 - Autonome Steuerung aktiv - zum Beenden loslassen" HorizontalAlignment="Left" Margin="677,156,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                        <CheckBox x:Name="Button7Pressed" IsEnabled="False" IsChecked="{Binding Button7Pressed, Mode=OneWay}" Content="7 - Emergency - Motoren aus!" HorizontalAlignment="Left" Margin="677,176,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                        <CheckBox x:Name="Button8Pressed" IsEnabled="False" IsChecked="{Binding Button8Pressed, Mode=OneWay}" Content="8 - Takeoff - zum Landen loslassen" HorizontalAlignment="Left" Margin="677,196,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                        <Label Content="linker Knppel &#xA;Pitch / Yaw" HorizontalAlignment="Left" Margin="688,228,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                        <Label Content="rechter Knppel &#xA;Nick / Roll" HorizontalAlignment="Left" Margin="820,228,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                        <TextBox x:Name="LeftStickXAxis" HorizontalAlignment="Left" Height="23" Margin="697,313,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="105" Grid.Column="1"/>
+                        <Label Content="X" HorizontalAlignment="Left" Margin="675,272,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                        <Label Content="Y" HorizontalAlignment="Left" Margin="675,308,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                        <TextBox x:Name="LeftStickYAxis" HorizontalAlignment="Left" Height="23" Margin="697,275,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="105" Grid.Column="1"/>
+                        <TextBox x:Name="RightStickXAxis" HorizontalAlignment="Left" Height="23" Margin="820,275,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="105" Grid.Column="1"/>
+                        <TextBox x:Name="RightStickYAxis" HorizontalAlignment="Left" Height="23" Margin="820,313,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="105" Grid.Column="1"/>
+
+                        <!--<TextBox  Height="23" TextWrapping="Wrap" Text="Place the cursor in this textbox. On emergency hit any key!" Margin="132,246,435,246" KeyDown="{Binding HandleEmergencyCommand}"/>-->
+
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="AR.Drone Verbindung herstellen">
+                    <Grid Background="WhiteSmoke">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock HorizontalAlignment="Left" Margin="39,24,0,0" TextWrapping="Wrap" Text="Bevor Sie sich hier mit der AR.Drone verbinden können, muss eine WLAN-Verbindung von diesem PC zur AR.Drone hergestellt werden." VerticalAlignment="Top" Height="47" Width="306"/>
+                            <Button Content="Mit AR.Drone verbinden" x:Name="ButtonConnect" Visibility="{Binding ConnectedToFlyingRobot, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=VisibleOnFalse}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Margin="30"/>
+                            <Button Content="Verbindung trennen" x:Name="ButtonDisconnect" Visibility="{Binding ConnectedToFlyingRobot, Converter={StaticResource BoolToVisibilityConverter} }" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50"  Margin="30"/>
+                        </StackPanel>
+                        
+                        
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Einstellungen">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Margin="10,10,10,10" BorderThickness="2" BorderBrush="LightSlateGray">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="350"></ColumnDefinition>
+                                    <ColumnDefinition Width="150"></ColumnDefinition>
+                                    <ColumnDefinition Width="200"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Column="3" Margin="7" HorizontalAlignment="Center" Width="Auto"> Aktueller Wert in der AR.Drone</TextBlock>
+                                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow" Margin="10,10,0,0">Maximale Giergeschwindigkeit (Radiale pro Sekunde, empfohlene Werte zwischen 0.7 und 6.11, default 3.0)</TextBlock>
+                                <Slider Grid.Row="2" Grid.Column="0" x:Name="MaxYawSlider" Value="{Binding MaxYaw, Mode=TwoWay}" Minimum="0.7" Maximum="6.11" Margin="10"  Width="300"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" x:Name="MaxYaw" Margin="10" Width="100" ></TextBlock>
+                                <Button Grid.Row="2" Grid.Column="2" x:Name="ButtonSendMaxYaw"  Content="Sende Wert an AR.Drone" Margin="2" ></Button>
+                                <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Path=ArDroneConfig.ControlYaw}" Margin="100,0,0,0" VerticalAlignment="Center"></TextBlock>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow" Margin="10,10,0,0"> Maximale Vertikalgeschwindigkeit (Millimeter pro Sekunde, empfohlene Werte zwischen 200 und 2000, default 1000)</TextBlock>
+                                <Slider Grid.Row="4" Grid.Column="0" x:Name="MaxVerticalSpeedSlider" Value="{Binding MaxVerticalSpeed, Mode=TwoWay}" Minimum="200" Maximum="2000" Margin="10" Width="300"/>
+                                <TextBlock Grid.Row="4" Grid.Column="1"  x:Name="MaxVerticalSpeed" Height="20" Margin="10" Width="100"></TextBlock>
+                                <Button Grid.Row="4" Grid.Column="2" x:Name="ButtonSendMaxVerticalSpeed" Content="Sende Wert an AR.Drone" Margin="2"></Button>
+                                <TextBlock Grid.Row="4" Grid.Column="3" Text="{Binding Path=ArDroneConfig.ControlVzMax}" Margin="100,0,0,0" VerticalAlignment="Center"></TextBlock>
+
+                                <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow" Margin="10,10,0,0">Maximaler Neigewinkel für pitch und roll (Zwischen 0 (0 Grad) und 0.52 (32 Grad), default 0.25)</TextBlock>
+                                <Slider Grid.Row="6" Grid.Column="0" x:Name="MaxEulerAngleSlider" Value="{Binding MaxEulerAngle}" Minimum="0" Maximum="0.52" Margin="10" Width="300"/>
+                                <TextBlock Grid.Row="6" Grid.Column="1" x:Name="MaxEulerAngle" Height="20" Margin="10" Width="100"></TextBlock>
+                                <Button Grid.Row="6" Grid.Column="2"  x:Name="ButtonSendMaxEulerAngle" Content="Sende Wert an AR.Drone" Margin="2"></Button>
+                                <TextBlock Grid.Row="6" Grid.Column="3" Text="{Binding Path=ArDroneConfig.EulerAngleMax}" Margin="100,0,0,0" VerticalAlignment="Center"></TextBlock>
+
+                                <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow" Margin="10,10,0,0">Maximale Flughöhe über Grund (Millimeter, Werte zwischen 500 und 5000, default 3000)</TextBlock>
+                                <Slider Grid.Row="8" Grid.Column="0"  x:Name="MaxAltitudeSlider" Value="{Binding MaxAltitude}" Minimum="500" Maximum="5000" Margin="10" Width="300" />
+                                <TextBlock Grid.Row="8" Grid.Column="1"  x:Name="MaxAltitude" Height="20" Margin="10" Width="100"></TextBlock>
+                                <Button Grid.Row="8" Grid.Column="2"  x:Name="ButtonSendMaxAltitude" Content="Sende Wert an AR.Drone" Margin="2"></Button>
+                                <TextBlock Grid.Row="8" Grid.Column="3" Text="{Binding Path=ArDroneConfig.AltitudeMax}" Margin="100,0,0,0" VerticalAlignment="Center"></TextBlock>
+
+                                <TextBlock Grid.Row="10" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,10,0">Außenflug</TextBlock>
+                                <CheckBox Grid.Row="10" Grid.Column="1"  Content="" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="IsOutside"/>
+                                <Button Grid.Row="10" Grid.Column="2"  x:Name="ButtonSendIsOutside" Content="Sende Wert an AR.Drone" Margin="2"></Button>
+                                <TextBlock Grid.Row="10" Grid.Column="3" Text="{Binding Path=ArDroneConfig.Outdoor}" Margin="100,0,0,0" VerticalAlignment="Center"></TextBlock>
+
+                                <TextBlock Grid.Row="12" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,10,0">Flug ohne Hülle</TextBlock>
+                                <CheckBox Grid.Row="12" Grid.Column="1" Content="" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="FlyingWithoutShell"/>
+                                <Button Grid.Row="12" Grid.Column="2" x:Name="ButtonSendFlyingWithoutShell" Content="Sende Wert an AR.Drone" Margin="2"></Button>
+                                <TextBlock Grid.Row="12" Grid.Column="3" Text="{Binding Path=ArDroneConfig.FlightWithoutShell}" Margin="100,0,0,0" VerticalAlignment="Center"></TextBlock>
+
+                                <Button Grid.Row="13" Grid.RowSpan="2" Grid.Column="3" Margin="2,15" Content="Zeige aktuelle Config von AR.Drone" x:Name="ButtonShowActualConfigOfArDrone"></Button>
+                                <Button Grid.Row="13" Grid.RowSpan="2" Grid.Column="2" Margin="2,15" Content="Sende Default Werte zur AR.Drone" x:Name="ButtonSendDefaultValues"></Button>
+
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+
+                </TabItem>
+                <TabItem Header="Tracking">
+                    <Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250"></ColumnDefinition>
+                                <ColumnDefinition Width="250"></ColumnDefinition>
+                                <ColumnDefinition Width="110"></ColumnDefinition>
+                                <ColumnDefinition Width="380"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="60"></RowDefinition>
+                                <RowDefinition Height="60"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <!--<TextBlock Grid.Column="3" Grid.Row="1"  Background="Aqua" TextAlignment="Center" VerticalAlignment="Center" Height="30" Visibility="{Binding GlyphAheadDetected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=VisibleOnFalse}">Suche Glyph</TextBlock>
+                            <TextBlock Grid.Column="3" Grid.Row="1" Background="Red" TextAlignment="Center" VerticalAlignment="Center" Height="30" Visibility="{Binding GlyphAheadDetected, Converter={StaticResource BoolToVisibilityConverter}}">Glyph voraus erkannt</TextBlock>-->
+
+                            <Grid Grid.Column="3" Grid.Row="4" Grid.RowSpan="7" Name="PreviewWindowsFormsHost" Background="PapayaWhip" Margin="10" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                
+                                <Canvas Grid.Row="0" Grid.Column="0" Background="Red" Visibility="{Binding SearchObjectTopLeft, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
+                                <Canvas Grid.Row="0" Grid.Column="1" Background="Red" Visibility="{Binding SearchObjectTopCenter, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
+                                <Canvas Grid.Row="0" Grid.Column="2" Background="Red" Visibility="{Binding SearchObjectTopRight, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
+                                <Canvas Grid.Row="1" Grid.Column="0" Background="Red" Visibility="{Binding SearchObjectCenterLeft, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
+                                <Canvas Grid.Row="1" Grid.Column="1" Background="ForestGreen" Visibility="{Binding SearchObjectCenterCenter, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
+                                <Canvas Grid.Row="1" Grid.Column="2" Background="Red" Visibility="{Binding SearchObjectCenterRight, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
+                                <Canvas Grid.Row="2" Grid.Column="0" Background="Red" Visibility="{Binding SearchObjectBottomLeft, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
+                                <Canvas Grid.Row="2" Grid.Column="1" Background="Red" Visibility="{Binding SearchObjectBottomCenter, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
+                                <Canvas Grid.Row="2" Grid.Column="2" Background="Red" Visibility="{Binding SearchObjectBottomRight, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
+                                
+                            </Grid>
+
+                            
+                            <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Das Kamerabild live von der AR.Drone (wird in einem extra Fenster angezeigt)" VerticalAlignment="Top" Height="42" Width="253"/>
+                        <Button Grid.Row="1" Grid.Column="0" Margin="7" Content="Starte Kameraübertragung" x:Name="ButtonShowCamera" IsEnabled="{Binding CameraStarted, Converter={StaticResource InvertBoolConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="42" />
+                        <Button Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="7" Content="Stoppe Kameraübertragung" x:Name="ButtonStopCamera" IsEnabled="{Binding CameraStarted}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="42" />
+                        
+                            
+                            <CheckBox Grid.Row="2" Grid.Column="0" Content="Aktiviere Objekterkennung" Name="ObjectDetectionEnabled"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                            <CheckBox Grid.Row="2" Grid.Column="1" Content="Aktiviere Tracking für Person" Name="TrackingPreviewEnabled"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                            <CheckBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"  Content="Aktiviere Tracking für Gefahr" Name="DangerTrackingPreviewEnabled"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                            <TabControl Grid.Row="3" Grid.Column="0" Grid.RowSpan="9" Grid.ColumnSpan="3" >
+                                <TabItem Header="Person" >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="250"></ColumnDefinition>
+                                            <ColumnDefinition Width="250"></ColumnDefinition>
+                                            <ColumnDefinition Width="110"></ColumnDefinition>                                            
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="*"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <Label Grid.Row="0" Grid.Column="0" Content="Objektgröße" HorizontalAlignment="Right" VerticalAlignment="Top" />
+                                        <Slider Grid.Row="0" Grid.Column="1" Value="{Binding SearchObjectSizePixels}" Minimum="0" Maximum="255" Width="200" HorizontalAlignment="Left" Margin="7" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="SearchObjectSizePixels" VerticalAlignment="Top" Width="120"/>
+
+                                        <!--<Label Grid.Row="4" Grid.Column="0" Content="Objekthelligkeit" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <Slider Grid.Row="4" Grid.Column="1" Value="{Binding ColorBrightness}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7" Width="200" Minimum="0" Maximum="255" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="ColorBrightness" VerticalAlignment="Center"/>-->
+
+                                        <Label Grid.Row="1" Grid.Column="0" Content="Saturation Min" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <Slider Grid.Row="1" Grid.Column="1" Value="{Binding SaturationMin}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7" Width="200" Minimum="-1" Maximum="1" />
+                                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="SaturationMin" VerticalAlignment="Center"/>
+
+                                        <Label Grid.Row="2" Grid.Column="0" Content="Saturation Max" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <Slider Grid.Row="2" Grid.Column="1" Value="{Binding SaturationMax}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7" Width="200" Minimum="-1" Maximum="1" />
+                                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="SaturationMax" VerticalAlignment="Center"/>
+
+                                        <Label Grid.Row="3" Grid.Column="0" Content="Luminanz Min" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <Slider Grid.Row="3" Grid.Column="1" Value="{Binding LuminanceMin}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7" Width="200" Minimum="-1" Maximum="1" />
+                                        <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="LuminanceMin" VerticalAlignment="Center"/>
+
+                                        <Label Grid.Row="4" Grid.Column="0" Content="Luminanz Max" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <Slider Grid.Row="4" Grid.Column="1" Value="{Binding LuminanceMax}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7" Width="200" Minimum="-1" Maximum="1" />
+                                        <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="LuminanceMax" VerticalAlignment="Center"/>
+
+                                        <Label Grid.Row="5" Grid.Column="0" Content="Hue Min" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+                                        <Label Grid.Row="6" Grid.Column="0" Content="Hue Max" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+                                        <Button Grid.Row="5" Grid.RowSpan="2" Grid.Column="1" Margin="7" Content="Öffne Hue Picker" Name="ButtonShowHuePicker" Visibility="{Binding HuePickerIsVisible, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=VisibleOnFalse}"></Button>
+                                        <Button Grid.Row="5" Grid.RowSpan="2" Grid.Column="1" Margin="7" Content="Schließe Hue Picker" Name="ButtonHideHuePicker" Visibility="{Binding HuePickerIsVisible, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
+                                        <TextBlock Grid.Row="5" Grid.Column="2" Name="HueMin" VerticalAlignment="Center"></TextBlock>
+                                        <TextBlock Grid.Row="6" Grid.Column="2" Name="HueMax" VerticalAlignment="Center"></TextBlock>
+                                        
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Gefahr" >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="250"></ColumnDefinition>
+                                            <ColumnDefinition Width="250"></ColumnDefinition>
+                                            <ColumnDefinition Width="110"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                            <RowDefinition Height="*"></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                        <Label Grid.Row="0" Grid.Column="0" Content="Objektgröße" HorizontalAlignment="Right" VerticalAlignment="Top" />
+                                        <Slider Grid.Row="0" Grid.Column="1" Value="{Binding DangerSearchObjectSizePixels}" Minimum="0" Maximum="255" Width="200" HorizontalAlignment="Left" Margin="7" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="DangerSearchObjectSizePixels" VerticalAlignment="Top" Width="120"/>
+
+                                        <!--<Label Grid.Row="4" Grid.Column="0" Content="Objekthelligkeit" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <Slider Grid.Row="4" Grid.Column="1" Value="{Binding ColorBrightness}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7" Width="200" Minimum="0" Maximum="255" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="ColorBrightness" VerticalAlignment="Center"/>-->
+
+                                        <Label Grid.Row="1" Grid.Column="0" Content="Saturation Min" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <Slider Grid.Row="1" Grid.Column="1" Value="{Binding DangerSaturationMin}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7" Width="200" Minimum="-1" Maximum="1" />
+                                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="DangerSaturationMin" VerticalAlignment="Center"/>
+
+                                        <Label Grid.Row="2" Grid.Column="0" Content="Saturation Max" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <Slider Grid.Row="2" Grid.Column="1" Value="{Binding DangerSaturationMax}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7" Width="200" Minimum="-1" Maximum="1" />
+                                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="DangerSaturationMax" VerticalAlignment="Center"/>
+
+                                        <Label Grid.Row="3" Grid.Column="0" Content="Luminanz Min" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <Slider Grid.Row="3" Grid.Column="1" Value="{Binding DangerLuminanceMin}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7" Width="200" Minimum="-1" Maximum="1" />
+                                        <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="DangerLuminanceMin" VerticalAlignment="Center"/>
+
+                                        <Label Grid.Row="4" Grid.Column="0" Content="Luminanz Max" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <Slider Grid.Row="4" Grid.Column="1" Value="{Binding DangerLuminanceMax}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7" Width="200" Minimum="-1" Maximum="1" />
+                                        <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="DangerLuminanceMax" VerticalAlignment="Center"/>
+
+                                        <Label Grid.Row="5" Grid.Column="0" Content="Hue Min" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+                                        <Label Grid.Row="6" Grid.Column="0" Content="Hue Max" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+                                        <Button Grid.Row="5" Grid.RowSpan="2" Grid.Column="1" Margin="7" Content="Öffne Hue Picker" Name="DangerButtonShowHuePicker" Visibility="{Binding DangerHuePickerIsVisible, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=VisibleOnFalse}"></Button>
+                                        <Button Grid.Row="5" Grid.RowSpan="2" Grid.Column="1" Margin="7" Content="Schließe Hue Picker" Name="DangerButtonHideHuePicker" Visibility="{Binding DangerHuePickerIsVisible, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
+                                        <TextBlock Grid.Row="5" Grid.Column="2" Name="DangerHueMin" VerticalAlignment="Center"></TextBlock>
+                                        <TextBlock Grid.Row="6" Grid.Column="2" Name="DangerHueMax" VerticalAlignment="Center"></TextBlock>
+                                        
+                                    </Grid>
+                                </TabItem>
+                                
+                            </TabControl>
+                            <Button Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="3"  Margin="15,3" Content="Person und Danger Tracking Einstellungen speichern" Name="ButtonSaveTrackingConfig"></Button>
+                            <!--<WindowsFormsHost Grid.Row="9" Grid.RowSpan="3" Grid.Column="1" >
+                                <followMe:HuePickerForm></followMe:HuePickerForm>    
+                          </WindowsFormsHost>-->
+                        
+                                                        
+                     </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Service für SmartPhone">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"></ColumnDefinition>
+                            <ColumnDefinition Width="350"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="60"></RowDefinition>
+                            <RowDefinition Height="10"></RowDefinition>
+                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="10"></RowDefinition>
+                            <RowDefinition Height="100"></RowDefinition>
+                            <RowDefinition Height="60"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>                            
+                        </Grid.RowDefinitions>
+
+                        <Button Grid.Row="1" Grid.Column="1" x:Name="ButtonStartRemoteControlServiceHost" Visibility="{Binding  RemoteControlServiceIsRunning, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=VisibleOnFalse}">Starte Service</Button>
+                        <Button Grid.Row="1" Grid.Column="1" x:Name="ButtonStopRemoteControlServiceHost" Visibility="{Binding  RemoteControlServiceIsRunning, Converter={StaticResource BoolToVisibilityConverter}}">Stoppe Service</Button>
+                        
+                        <TextBox Grid.Row="3" Grid.Column="1"  Name="RemoteServiceUri" />
+
+                        <Grid Grid.Row="5" Grid.Column="1" Background="Red" Visibility="{Binding  RemoteControlRequestsStop, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBox Grid.Row="5" Grid.Column="1" Background="Red" Foreground="White"  FontSize="50" VerticalAlignment="Center" HorizontalAlignment="Center">STOP</TextBox>
+                        </Grid>
+                        <Button Grid.Row="6" Grid.Column="1" x:Name="ButtonResetRequestedStop" Content="Reset Stop Anfrage" Visibility="{Binding  RemoteControlRequestsStop, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </Grid>
+                </TabItem>
+                <!--<TabItem Header="AR.Drone autonom fliegen">
+                    
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="250"></ColumnDefinition>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                            <RowDefinition Height="150"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="150"></RowDefinition>
+                        </Grid.RowDefinitions>
+                            <Grid Grid.Column="1" Grid.Row="1"  Grid.RowSpan="1" Name="PreviewWindowsFormsHost2" Background="PapayaWhip" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBox Text="steuere nach links oben" TextWrapping="Wrap"  Grid.Row="0" Grid.Column="0" Background="Red" Visibility="{Binding SearchObjectTopLeft, Converter={StaticResource BoolToVisibilityConverter}}" ></TextBox>
+                            <TextBox Text="steuere nach oben"  TextWrapping="Wrap" Grid.Row="0" Grid.Column="1" Background="Red" Visibility="{Binding SearchObjectTopCenter, Converter={StaticResource BoolToVisibilityConverter}}" ></TextBox>
+                            <TextBox Text="steuere nach rechts oben" TextWrapping="Wrap" Grid.Row="0" Grid.Column="2" Background="Red" Visibility="{Binding SearchObjectTopRight, Converter={StaticResource BoolToVisibilityConverter}}" ></TextBox>
+                            <TextBox Text="steuere nach links" TextWrapping="Wrap"  Grid.Row="1" Grid.Column="0" Background="Red" Visibility="{Binding SearchObjectCenterLeft, Converter={StaticResource BoolToVisibilityConverter}}" ></TextBox>
+                            <TextBox Text="" Grid.Row="1" Grid.Column="1" Background="ForestGreen" Visibility="{Binding SearchObjectCenterCenter, Converter={StaticResource BoolToVisibilityConverter}}" ></TextBox>
+                            <TextBlock Text="steuere nach rechts" TextWrapping="Wrap"  Grid.Row="1" Grid.Column="2" Background="Red" Visibility="{Binding SearchObjectCenterRight, Converter={StaticResource BoolToVisibilityConverter}}" ></TextBlock>
+                            <TextBlock Text="steuere nach links unten" TextWrapping="Wrap"  Grid.Row="2" Grid.Column="0" Background="Red" Visibility="{Binding SearchObjectBottomLeft, Converter={StaticResource BoolToVisibilityConverter}}" ></TextBlock>
+                            <TextBlock Text="steuere nach unten" TextWrapping="Wrap"  Grid.Row="2" Grid.Column="1" Background="Red" Visibility="{Binding SearchObjectBottomCenter, Converter={StaticResource BoolToVisibilityConverter}}" ></TextBlock>
+                            <TextBlock Text="steuere nach rechts unten" TextWrapping="Wrap"  Grid.Row="2" Grid.Column="2" Background="Red" Visibility="{Binding SearchObjectBottomRight, Converter={StaticResource BoolToVisibilityConverter}}" ></TextBlock>
+
+                        </Grid>
+                        <TextBlock Grid.Row="0" Grid.Column="3">Button 6 muss gedrückt und gehalten werden solange autonom geflogen werden soll.</TextBlock>
+                            <DockPanel Grid.Row="0" Grid.Column="3">
+                            <Button Content="Starte autonome Steuerung" Margin="30" Name="ButtonStartAutonomousFlight" Width="261" IsEnabled="{Binding Button6Pressed}"></Button>
+                            <Button Content="Stoppe autonome Steuerung" Margin="30" Name="ButtonStopAutonomousFlight" IsEnabled="{Binding FlyingAtonomous}"/>
+                            </DockPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
+                            <Grid Background="Chartreuse" Height="200" Visibility="{Binding Button6Pressed, Converter={StaticResource BoolToVisibilityConverter}}"></Grid>
+                            <ScrollViewer Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
+                                <TextBlock Name="CommandsForAutonomousFlight"></TextBlock>
+                            </ScrollViewer>
+                        </StackPanel>
+
+
+                    </Grid>
+                    
+                </TabItem>-->
+            </TabControl>
+            <StatusBar HorizontalAlignment="Left" Height="33" Margin="0" VerticalAlignment="Bottom" Width="1017">
+                <Label Content="Joystick: "  HorizontalAlignment="Right" VerticalAlignment="Center" Width="75"/>
+                <Grid Height="28" Background="{Binding SelectedJoystick, Converter={StaticResource StringToRedOrGreenConverter}}" Width="200">
+                    <TextBlock x:Name="SelectedJoystick"  HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" Text="Kein Joystick ausgewählt" MinWidth="190"/>
+                </Grid>
+                <!--<TextBlock x:Name="SelectedJoystick" ToolTip="{Binding SelectedJoystick}" Width="160" Background="{Binding SelectedJoystick, Converter={StaticResource StringToRedOrGreenConverter}}" />-->
+                <Label Content="Verbindung zu AR.Drone hergestellt." Background="Chartreuse" Visibility="{Binding ConnectedToFlyingRobot, Converter={StaticResource BoolToVisibilityConverter}}" Height="28" VerticalAlignment="Center"/>
+                <Label Content="Keine Verbindung zu AR.Drone hergestellt." Background="Red" Visibility="{Binding ConnectedToFlyingRobot, Converter={StaticResource BoolToVisibilityConverter},  ConverterParameter=VisibleOnFalse }" Height="28" VerticalAlignment="Center"/>
+                
+                <Label Content="Batterielevel:" HorizontalAlignment="Right" VerticalAlignment="Center" Width="75"/>
+                <Grid Height="28" Background="{Binding BatteryLevel, Converter={StaticResource BatteryValueToColorConverter}}" >
+                    <TextBlock x:Name="BatteryLevel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" />
+                </Grid>
+            </StatusBar>
+        </Grid>
+    </Grid>
+</Window>

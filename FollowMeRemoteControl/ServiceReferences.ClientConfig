@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <system.serviceModel>
+    <bindings>
+      <basicHttpBinding>
+        <binding name="BasicHttpBinding_IRemoteControl" closeTimeout="00:00:01"
+          openTimeout="00:00:01" receiveTimeout="00:00:01" sendTimeout="00:00:01" />
+        <binding name="BasicHttpBinding_IRemoteControl1" maxBufferSize="2147483647"
+          maxReceivedMessageSize="2147483647">
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+    <client>
+      <endpoint address="http://192.168.178.32:8080/FollowMe" binding="basicHttpBinding"
+        bindingConfiguration="BasicHttpBinding_IRemoteControl" contract="IRemoteControl"
+        name="BasicHttpBinding_IRemoteControl" />
+      <endpoint address="http://192.168.178.32:8080/FollowMe" binding="basicHttpBinding"
+        bindingConfiguration="BasicHttpBinding_IRemoteControl1" contract="FollowMeService.IRemoteControl"
+        name="BasicHttpBinding_IRemoteControl1" />
+    </client>
+  </system.serviceModel>
+</configuration>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="9c972eca-746d-40fe-8cf6-10da051aa6a5" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://192.168.178.32:8080/FollowMe" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="RemoteControl.wsdl" MetadataType="Wsdl" ID="671e68c2-7eda-4bca-8b79-d5f9f508dd4c" SourceId="1" SourceUrl="http://192.168.178.32:8080/FollowMe?wsdl" />
+    <MetadataFile FileName="FollowMe.disco" MetadataType="Disco" ID="9b33385e-ea41-47de-a3ad-a43563fb3efa" SourceId="1" SourceUrl="http://192.168.178.32:8080/FollowMe?disco" />
+    <MetadataFile FileName="FollowMe.xsd" MetadataType="Schema" ID="54b0c286-7630-4871-9dfa-dd5f842250cc" SourceId="1" SourceUrl="http://192.168.178.32:8080/FollowMe?xsd=xsd0" />
+    <MetadataFile FileName="FollowMe1.xsd" MetadataType="Schema" ID="a185989a-0e6a-47b0-9ed5-3b61a5ecd4c2" SourceId="1" SourceUrl="http://192.168.178.32:8080/FollowMe?xsd=xsd2" />
+    <MetadataFile FileName="FollowMe3.xsd" MetadataType="Schema" ID="f77097a4-68da-4c59-99e1-2c58932a7ffa" SourceId="1" SourceUrl="http://192.168.178.32:8080/FollowMe?xsd=xsd3" />
+    <MetadataFile FileName="FollowMe2.xsd" MetadataType="Schema" ID="a4c9701f-3d0c-451a-9268-4e05bb1ef272" SourceId="1" SourceUrl="http://192.168.178.32:8080/FollowMe?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
