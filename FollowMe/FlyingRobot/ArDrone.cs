@@ -33,6 +33,7 @@ namespace FollowMe.FlyingRobot
             Log.Info("Connect()");
             ezbConnect.EZB.ARDrone.Connect(ARDrone.ARDroneVersionEnum.V2);
             var controlConfig = ezbConnect.EZB.ARDrone.GetControlConfig();
+
             return controlConfig;
         }
 
@@ -170,6 +171,7 @@ namespace FollowMe.FlyingRobot
         public void SetFlatTrim()
         {
             Log.Info("SetFlatTrim()");
+            ezbConnect.EZB.ARDrone.SetIsFlyingWithoutShell(false);
             ezbConnect.EZB.ARDrone.SetFlatTrim();
         }
 
@@ -222,7 +224,17 @@ namespace FollowMe.FlyingRobot
         {
             Log.Info("SendDefaultValues()");
             ezbConnect.EZB.ARDrone.SendDefaultValues();
+            
         }
+
+        public void SwitchVideoChannelToVertical()
+        {
+            Log.Info("SwitchVideoChannel()");
+            ezbConnect.EZB.ARDrone.SwitchVideoChannel(Commands.VideoChannelEnum.Vertical);
+        }
+
+
+        
 
         #endregion
     }

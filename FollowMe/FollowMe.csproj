@@ -119,6 +119,7 @@
     <Compile Include="Enums\HorizontalDirection.cs" />
     <Compile Include="Enums\TargetLocation.cs" />
     <Compile Include="Enums\VerticalDirection.cs" />
+    <Compile Include="EzRobot\QrCodeDetection.cs" />
     <Compile Include="EzRobot\TatgetLocatorFactory.cs" />
     <Compile Include="EzRobot\UcezbConnectProvider.cs" />
     <Compile Include="FlyingRobot\ArDrone.cs" />

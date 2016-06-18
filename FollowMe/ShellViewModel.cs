@@ -28,7 +28,7 @@ namespace FollowMe {
     {
         #region privates
 
-        private readonly float autonomousFlyingSteeringForce = 0.15f;
+        private readonly float autonomousFlyingSteeringForce = 0.002f;
 
         private readonly IWindowManager windowManager;
         private readonly IEventAggregator eventAggregator;
@@ -148,6 +148,16 @@ namespace FollowMe {
             {
                 batteryLevel = value;
                 NotifyOfPropertyChange(() => BatteryLevel);
+            }
+        }
+
+        public String FoundFreeParkingLots
+        {
+            get { return freeParkingLotString; }
+            set
+            {
+                freeParkingLotString = value;
+                NotifyOfPropertyChange(() => FoundFreeParkingLots);
             }
         }
 
@@ -690,6 +700,10 @@ namespace FollowMe {
         private bool glyphAheadDetected;
         private string remoteServiceUri;
         private bool dangerHuePickerIsVisible;
+        private QrCodeDetection qrCodeDetection;
+        private HashSet<string> freeParkingLots = new HashSet<string>();
+        private string freeParkingLotString;
+
         public bool GlyphAheadDetected
         { 
             get { return glyphAheadDetected; }
@@ -1061,6 +1075,8 @@ namespace FollowMe {
             }
         }
 
+       
+
         /// <summary>
         /// -> Method:EZ_B.AR­Drone.­Drone­Control.­Set­Yaw(­System.­Single) 
         /// </summary>
@@ -1126,7 +1142,7 @@ namespace FollowMe {
             Log.Info("SetIsFlyingWithoutShell: {0}", FlyingWithoutShell);
             flyingRobotConfigurationHandler.SetIsFlyingWithoutShell(FlyingWithoutShell);
         }
-     
+
         /// <summary>
         /// Start the camera.
         /// Set handler for OnNewFrame event
@@ -1135,7 +1151,11 @@ namespace FollowMe {
         /// <param name="e"></param>
         public void ButtonShowCamera(object sender, RoutedEventArgs e)
         {
+            flyingRobot.SwitchVideoChannelToVertical();
+
             camera = new Camera(UcezbConnectProvider.Instance.EZB);
+            camera.OnNewFrame += _camera_QrDetection;
+           
             camera.OnNewFrame += _camera_OnNewFrame;
             Log.Info("StartCamera");
 
@@ -1147,6 +1167,54 @@ namespace FollowMe {
                     240);
             //camera.QuadBottomY = 33;
             CameraStarted = true;
+            qrCodeDetection = new QrCodeDetection(camera);
+
+
+        }
+
+        private void _camera_QrDetection()
+        {
+            
+            try
+            {
+                qrCode = qrCodeDetection.GetQRCodeText();
+                if (qrCode != null)
+                {
+                    
+                    freeParkingLots.Add(qrCode);
+                    FoundFreeParkingLots = string.Join("\n", freeParkingLots);
+                    if (qrCode.Equals("ParkingEnd") && freeParkingLots.Count > 0)
+                    {
+                        flyingRobot.Land();
+                        var freeParkingLostsEnumerator = freeParkingLots.GetEnumerator();
+
+                        if (freeParkingLostsEnumerator.MoveNext())
+                        {
+                            String firstParkingLot = freeParkingLostsEnumerator.Current;
+                            System.IO.File.WriteAllText(@"C:\temp\parkinglot.txt", firstParkingLot.Replace("Parking", ""));
+
+                        }
+                    }
+                }
+
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+            }
+            
+            
+        }
+
+        public void ButtonStartParkingLotSearch(object sender, RoutedEventArgs e)
+        {
+            Log.Info("Start parking lot search");
+
+            freeParkingLots.Clear();
+            FoundFreeParkingLots = "";
+
+            //flyingRobot.TakeOff();
+
         }
 
         public void ButtonStopCamera(object sender, RoutedEventArgs e)
@@ -1284,7 +1352,7 @@ namespace FollowMe {
             FlyingAtonomous = true;
             autonomousTimer = new Timer
             {
-                Interval = 200,
+                Interval = 400,
                 Enabled = true
             };
             autonomousTimer.Elapsed += AutonomousTimerOnElapsed;
@@ -1298,16 +1366,17 @@ namespace FollowMe {
                 if (SearchObjectCenterLeft || SearchObjectBottomLeft || SearchObjectTopLeft)
                 {
                     // steer left
-                    Log.Info("Yaw left");
+                    Log.Warn("######### AUTONOM ######## Roll LEFT");
                     moveFlyingRobot = true;
-                    flyingRobot.Yaw(HorizontalDirection.Left, autonomousFlyingSteeringForce);
+                    flyingRobot.Roll(HorizontalDirection.Left, autonomousFlyingSteeringForce);
                 }
                 else if (SearchObjectCenterRight || SearchObjectTopRight || SearchObjectBottomRight)
                 {
                     // steer right
-                    Log.Info("Yaw right");
+                    Log.Warn("######### AUTONOM ######## Roll RIGHT");
                     moveFlyingRobot = true;
-                    flyingRobot.Yaw(HorizontalDirection.Right, autonomousFlyingSteeringForce);
+                    flyingRobot.Roll(HorizontalDirection.Right, autonomousFlyingSteeringForce);
+                    //flyingRobot.Yaw(HorizontalDirection.Right, autonomousFlyingSteeringForce);
                 }
                 else if(SearchObjectLocationUnknown)
                 {

@@ -64,8 +64,8 @@
                             <Button Content="Mit AR.Drone verbinden" x:Name="ButtonConnect" Visibility="{Binding ConnectedToFlyingRobot, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=VisibleOnFalse}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50" Margin="30"/>
                             <Button Content="Verbindung trennen" x:Name="ButtonDisconnect" Visibility="{Binding ConnectedToFlyingRobot, Converter={StaticResource BoolToVisibilityConverter} }" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="50"  Margin="30"/>
                         </StackPanel>
-                        
-                        
+
+
                     </Grid>
                 </TabItem>
 
@@ -80,7 +80,8 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="350"></ColumnDefinition>
                                     <ColumnDefinition Width="150"></ColumnDefinition>
-                                    <ColumnDefinition Width="200"></ColumnDefinition>
+                                    <ColumnDefinition Width="58.662"></ColumnDefinition>
+                                    <ColumnDefinition Width="141.338"/>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
@@ -101,43 +102,43 @@
                                     <RowDefinition Height="40"></RowDefinition>
                                     <RowDefinition Height="30"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Column="3" Margin="7" HorizontalAlignment="Center" Width="Auto"> Aktueller Wert in der AR.Drone</TextBlock>
-                                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow" Margin="10,10,0,0">Maximale Giergeschwindigkeit (Radiale pro Sekunde, empfohlene Werte zwischen 0.7 und 6.11, default 3.0)</TextBlock>
-                                <Slider Grid.Row="2" Grid.Column="0" x:Name="MaxYawSlider" Value="{Binding MaxYaw, Mode=TwoWay}" Minimum="0.7" Maximum="6.11" Margin="10"  Width="300"/>
-                                <TextBlock Grid.Row="2" Grid.Column="1" x:Name="MaxYaw" Margin="10" Width="100" ></TextBlock>
-                                <Button Grid.Row="2" Grid.Column="2" x:Name="ButtonSendMaxYaw"  Content="Sende Wert an AR.Drone" Margin="2" ></Button>
-                                <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Path=ArDroneConfig.ControlYaw}" Margin="100,0,0,0" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Grid.Column="4" Margin="62,7" HorizontalAlignment="Center" Width="Auto"> Aktueller Wert in der AR.Drone</TextBlock>
+                                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" TextWrapping="WrapWithOverflow" Margin="10,10,0,0">Maximale Giergeschwindigkeit (Radiale pro Sekunde, empfohlene Werte zwischen 0.7 und 6.11, default 3.0)</TextBlock>
+                                <Slider Grid.Row="2" Grid.Column="0" x:Name="MaxYawSlider" Value="{Binding MaxYaw, Mode=TwoWay}" Minimum="0.7" Maximum="6.11" Margin="25,10"  Width="300"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" x:Name="MaxYaw" Margin="25,10" Width="100" ></TextBlock>
+                                <Button Grid.Row="2" Grid.Column="2" x:Name="ButtonSendMaxYaw"  Content="Sende Wert an AR.Drone" Margin="2" Grid.ColumnSpan="2" ></Button>
+                                <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding Path=ArDroneConfig.ControlYaw}" Margin="100,12,0,12" VerticalAlignment="Center"></TextBlock>
 
-                                <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow" Margin="10,10,0,0"> Maximale Vertikalgeschwindigkeit (Millimeter pro Sekunde, empfohlene Werte zwischen 200 und 2000, default 1000)</TextBlock>
-                                <Slider Grid.Row="4" Grid.Column="0" x:Name="MaxVerticalSpeedSlider" Value="{Binding MaxVerticalSpeed, Mode=TwoWay}" Minimum="200" Maximum="2000" Margin="10" Width="300"/>
-                                <TextBlock Grid.Row="4" Grid.Column="1"  x:Name="MaxVerticalSpeed" Height="20" Margin="10" Width="100"></TextBlock>
-                                <Button Grid.Row="4" Grid.Column="2" x:Name="ButtonSendMaxVerticalSpeed" Content="Sende Wert an AR.Drone" Margin="2"></Button>
-                                <TextBlock Grid.Row="4" Grid.Column="3" Text="{Binding Path=ArDroneConfig.ControlVzMax}" Margin="100,0,0,0" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" TextWrapping="WrapWithOverflow" Margin="10,10,0,0"> Maximale Vertikalgeschwindigkeit (Millimeter pro Sekunde, empfohlene Werte zwischen 200 und 2000, default 1000)</TextBlock>
+                                <Slider Grid.Row="4" Grid.Column="0" x:Name="MaxVerticalSpeedSlider" Value="{Binding MaxVerticalSpeed, Mode=TwoWay}" Minimum="200" Maximum="2000" Margin="25,10" Width="300"/>
+                                <TextBlock Grid.Row="4" Grid.Column="1"  x:Name="MaxVerticalSpeed" Height="20" Margin="25,10" Width="100"></TextBlock>
+                                <Button Grid.Row="4" Grid.Column="2" x:Name="ButtonSendMaxVerticalSpeed" Content="Sende Wert an AR.Drone" Margin="2" Grid.ColumnSpan="2"></Button>
+                                <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding Path=ArDroneConfig.ControlVzMax}" Margin="100,12,0,12" VerticalAlignment="Center"></TextBlock>
 
-                                <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow" Margin="10,10,0,0">Maximaler Neigewinkel für pitch und roll (Zwischen 0 (0 Grad) und 0.52 (32 Grad), default 0.25)</TextBlock>
-                                <Slider Grid.Row="6" Grid.Column="0" x:Name="MaxEulerAngleSlider" Value="{Binding MaxEulerAngle}" Minimum="0" Maximum="0.52" Margin="10" Width="300"/>
-                                <TextBlock Grid.Row="6" Grid.Column="1" x:Name="MaxEulerAngle" Height="20" Margin="10" Width="100"></TextBlock>
-                                <Button Grid.Row="6" Grid.Column="2"  x:Name="ButtonSendMaxEulerAngle" Content="Sende Wert an AR.Drone" Margin="2"></Button>
-                                <TextBlock Grid.Row="6" Grid.Column="3" Text="{Binding Path=ArDroneConfig.EulerAngleMax}" Margin="100,0,0,0" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" TextWrapping="WrapWithOverflow" Margin="10,10,0,0">Maximaler Neigewinkel für pitch und roll (Zwischen 0 (0 Grad) und 0.52 (32 Grad), default 0.25)</TextBlock>
+                                <Slider Grid.Row="6" Grid.Column="0" x:Name="MaxEulerAngleSlider" Value="{Binding MaxEulerAngle}" Minimum="0" Maximum="0.52" Margin="25,10" Width="300"/>
+                                <TextBlock Grid.Row="6" Grid.Column="1" x:Name="MaxEulerAngle" Height="20" Margin="25,10" Width="100"></TextBlock>
+                                <Button Grid.Row="6" Grid.Column="2"  x:Name="ButtonSendMaxEulerAngle" Content="Sende Wert an AR.Drone" Margin="2" Grid.ColumnSpan="2"></Button>
+                                <TextBlock Grid.Row="6" Grid.Column="4" Text="{Binding Path=ArDroneConfig.EulerAngleMax}" Margin="100,12,0,12" VerticalAlignment="Center"></TextBlock>
 
-                                <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow" Margin="10,10,0,0">Maximale Flughöhe über Grund (Millimeter, Werte zwischen 500 und 5000, default 3000)</TextBlock>
-                                <Slider Grid.Row="8" Grid.Column="0"  x:Name="MaxAltitudeSlider" Value="{Binding MaxAltitude}" Minimum="500" Maximum="5000" Margin="10" Width="300" />
-                                <TextBlock Grid.Row="8" Grid.Column="1"  x:Name="MaxAltitude" Height="20" Margin="10" Width="100"></TextBlock>
-                                <Button Grid.Row="8" Grid.Column="2"  x:Name="ButtonSendMaxAltitude" Content="Sende Wert an AR.Drone" Margin="2"></Button>
-                                <TextBlock Grid.Row="8" Grid.Column="3" Text="{Binding Path=ArDroneConfig.AltitudeMax}" Margin="100,0,0,0" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" TextWrapping="WrapWithOverflow" Margin="10,10,0,0">Maximale Flughöhe über Grund (Millimeter, Werte zwischen 500 und 5000, default 3000)</TextBlock>
+                                <Slider Grid.Row="8" Grid.Column="0"  x:Name="MaxAltitudeSlider" Value="{Binding MaxAltitude}" Minimum="500" Maximum="5000" Margin="25,10" Width="300" />
+                                <TextBlock Grid.Row="8" Grid.Column="1"  x:Name="MaxAltitude" Height="20" Margin="25,10" Width="100"></TextBlock>
+                                <Button Grid.Row="8" Grid.Column="2"  x:Name="ButtonSendMaxAltitude" Content="Sende Wert an AR.Drone" Margin="2" Grid.ColumnSpan="2"></Button>
+                                <TextBlock Grid.Row="8" Grid.Column="4" Text="{Binding Path=ArDroneConfig.AltitudeMax}" Margin="100,12,0,12" VerticalAlignment="Center"></TextBlock>
 
-                                <TextBlock Grid.Row="10" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,10,0">Außenflug</TextBlock>
-                                <CheckBox Grid.Row="10" Grid.Column="1"  Content="" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="IsOutside"/>
-                                <Button Grid.Row="10" Grid.Column="2"  x:Name="ButtonSendIsOutside" Content="Sende Wert an AR.Drone" Margin="2"></Button>
-                                <TextBlock Grid.Row="10" Grid.Column="3" Text="{Binding Path=ArDroneConfig.Outdoor}" Margin="100,0,0,0" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Grid.Row="10" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,12,10,12">Außenflug</TextBlock>
+                                <CheckBox Grid.Row="10" Grid.Column="1"  Content="" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="IsOutside" Margin="0,12"/>
+                                <Button Grid.Row="10" Grid.Column="2"  x:Name="ButtonSendIsOutside" Content="Sende Wert an AR.Drone" Margin="2" Grid.ColumnSpan="2"></Button>
+                                <TextBlock Grid.Row="10" Grid.Column="4" Text="{Binding Path=ArDroneConfig.Outdoor}" Margin="100,12,0,12" VerticalAlignment="Center"></TextBlock>
 
-                                <TextBlock Grid.Row="12" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,10,0">Flug ohne Hülle</TextBlock>
-                                <CheckBox Grid.Row="12" Grid.Column="1" Content="" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="FlyingWithoutShell"/>
-                                <Button Grid.Row="12" Grid.Column="2" x:Name="ButtonSendFlyingWithoutShell" Content="Sende Wert an AR.Drone" Margin="2"></Button>
-                                <TextBlock Grid.Row="12" Grid.Column="3" Text="{Binding Path=ArDroneConfig.FlightWithoutShell}" Margin="100,0,0,0" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Grid.Row="12" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,12,9,12">Flug ohne Hülle</TextBlock>
+                                <CheckBox Grid.Row="12" Grid.Column="1" Content="" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="FlyingWithoutShell" Margin="0,12"/>
+                                <Button Grid.Row="12" Grid.Column="2" x:Name="ButtonSendFlyingWithoutShell" Content="Sende Wert an AR.Drone" Margin="2" Grid.ColumnSpan="2"></Button>
+                                <TextBlock Grid.Row="12" Grid.Column="4" Text="{Binding Path=ArDroneConfig.FlightWithoutShell}" Margin="100,12,0,12" VerticalAlignment="Center"></TextBlock>
 
-                                <Button Grid.Row="13" Grid.RowSpan="2" Grid.Column="3" Margin="2,15" Content="Zeige aktuelle Config von AR.Drone" x:Name="ButtonShowActualConfigOfArDrone"></Button>
-                                <Button Grid.Row="13" Grid.RowSpan="2" Grid.Column="2" Margin="2,15" Content="Sende Default Werte zur AR.Drone" x:Name="ButtonSendDefaultValues"></Button>
+                                <Button Grid.Row="13" Grid.RowSpan="2" Grid.Column="4" Margin="2,15" Content="Zeige aktuelle Config von AR.Drone" x:Name="ButtonShowActualConfigOfArDrone"></Button>
+                                <Button Grid.Row="13" Grid.RowSpan="2" Grid.Column="2" Margin="2,15" Content="Sende Default Werte zur AR.Drone" x:Name="ButtonSendDefaultValues" Grid.ColumnSpan="2"></Button>
 
                             </Grid>
                         </Border>
@@ -185,7 +186,7 @@
                                     <RowDefinition Height="*"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                
+
                                 <Canvas Grid.Row="0" Grid.Column="0" Background="Red" Visibility="{Binding SearchObjectTopLeft, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
                                 <Canvas Grid.Row="0" Grid.Column="1" Background="Red" Visibility="{Binding SearchObjectTopCenter, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
                                 <Canvas Grid.Row="0" Grid.Column="2" Background="Red" Visibility="{Binding SearchObjectTopRight, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
@@ -195,15 +196,15 @@
                                 <Canvas Grid.Row="2" Grid.Column="0" Background="Red" Visibility="{Binding SearchObjectBottomLeft, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
                                 <Canvas Grid.Row="2" Grid.Column="1" Background="Red" Visibility="{Binding SearchObjectBottomCenter, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
                                 <Canvas Grid.Row="2" Grid.Column="2" Background="Red" Visibility="{Binding SearchObjectBottomRight, Converter={StaticResource BoolToVisibilityConverter}}" ></Canvas>
-                                
+
                             </Grid>
 
-                            
+
                             <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Das Kamerabild live von der AR.Drone (wird in einem extra Fenster angezeigt)" VerticalAlignment="Top" Height="42" Width="253"/>
-                        <Button Grid.Row="1" Grid.Column="0" Margin="7" Content="Starte Kameraübertragung" x:Name="ButtonShowCamera" IsEnabled="{Binding CameraStarted, Converter={StaticResource InvertBoolConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="42" />
-                        <Button Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="7" Content="Stoppe Kameraübertragung" x:Name="ButtonStopCamera" IsEnabled="{Binding CameraStarted}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="42" />
-                        
-                            
+                            <Button Grid.Row="1" Grid.Column="0" Margin="7" Content="Starte Kameraübertragung" x:Name="ButtonShowCamera" IsEnabled="{Binding CameraStarted, Converter={StaticResource InvertBoolConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="42" />
+                            <Button Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="7" Content="Stoppe Kameraübertragung" x:Name="ButtonStopCamera" IsEnabled="{Binding CameraStarted}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="42" />
+
+
                             <CheckBox Grid.Row="2" Grid.Column="0" Content="Aktiviere Objekterkennung" Name="ObjectDetectionEnabled"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
                             <CheckBox Grid.Row="2" Grid.Column="1" Content="Aktiviere Tracking für Person" Name="TrackingPreviewEnabled"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
                             <CheckBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"  Content="Aktiviere Tracking für Gefahr" Name="DangerTrackingPreviewEnabled"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
@@ -213,7 +214,7 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="250"></ColumnDefinition>
                                             <ColumnDefinition Width="250"></ColumnDefinition>
-                                            <ColumnDefinition Width="110"></ColumnDefinition>                                            
+                                            <ColumnDefinition Width="110"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="35"></RowDefinition>
@@ -229,7 +230,7 @@
                                             <RowDefinition Height="35"></RowDefinition>
                                             <RowDefinition Height="*"></RowDefinition>
                                         </Grid.RowDefinitions>
-                                        
+
                                         <Label Grid.Row="0" Grid.Column="0" Content="Objektgröße" HorizontalAlignment="Right" VerticalAlignment="Top" />
                                         <Slider Grid.Row="0" Grid.Column="1" Value="{Binding SearchObjectSizePixels}" Minimum="0" Maximum="255" Width="200" HorizontalAlignment="Left" Margin="7" VerticalAlignment="Center"/>
                                         <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Name="SearchObjectSizePixels" VerticalAlignment="Top" Width="120"/>
@@ -260,7 +261,7 @@
                                         <Button Grid.Row="5" Grid.RowSpan="2" Grid.Column="1" Margin="7" Content="Schließe Hue Picker" Name="ButtonHideHuePicker" Visibility="{Binding HuePickerIsVisible, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
                                         <TextBlock Grid.Row="5" Grid.Column="2" Name="HueMin" VerticalAlignment="Center"></TextBlock>
                                         <TextBlock Grid.Row="6" Grid.Column="2" Name="HueMax" VerticalAlignment="Center"></TextBlock>
-                                        
+
                                     </Grid>
                                 </TabItem>
                                 <TabItem Header="Gefahr" >
@@ -315,18 +316,18 @@
                                         <Button Grid.Row="5" Grid.RowSpan="2" Grid.Column="1" Margin="7" Content="Schließe Hue Picker" Name="DangerButtonHideHuePicker" Visibility="{Binding DangerHuePickerIsVisible, Converter={StaticResource BoolToVisibilityConverter}}"></Button>
                                         <TextBlock Grid.Row="5" Grid.Column="2" Name="DangerHueMin" VerticalAlignment="Center"></TextBlock>
                                         <TextBlock Grid.Row="6" Grid.Column="2" Name="DangerHueMax" VerticalAlignment="Center"></TextBlock>
-                                        
+
                                     </Grid>
                                 </TabItem>
-                                
+
                             </TabControl>
                             <Button Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="3"  Margin="15,3" Content="Person und Danger Tracking Einstellungen speichern" Name="ButtonSaveTrackingConfig"></Button>
                             <!--<WindowsFormsHost Grid.Row="9" Grid.RowSpan="3" Grid.Column="1" >
                                 <followMe:HuePickerForm></followMe:HuePickerForm>    
                           </WindowsFormsHost>-->
-                        
-                                                        
-                     </Grid>
+
+
+                        </Grid>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Service für SmartPhone">
@@ -344,18 +345,43 @@
                             <RowDefinition Height="10"></RowDefinition>
                             <RowDefinition Height="100"></RowDefinition>
                             <RowDefinition Height="60"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>                            
+                            <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
 
                         <Button Grid.Row="1" Grid.Column="1" x:Name="ButtonStartRemoteControlServiceHost" Visibility="{Binding  RemoteControlServiceIsRunning, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=VisibleOnFalse}">Starte Service</Button>
                         <Button Grid.Row="1" Grid.Column="1" x:Name="ButtonStopRemoteControlServiceHost" Visibility="{Binding  RemoteControlServiceIsRunning, Converter={StaticResource BoolToVisibilityConverter}}">Stoppe Service</Button>
-                        
+
                         <TextBox Grid.Row="3" Grid.Column="1"  Name="RemoteServiceUri" />
 
                         <Grid Grid.Row="5" Grid.Column="1" Background="Red" Visibility="{Binding  RemoteControlRequestsStop, Converter={StaticResource BoolToVisibilityConverter}}">
                             <TextBox Grid.Row="5" Grid.Column="1" Background="Red" Foreground="White"  FontSize="50" VerticalAlignment="Center" HorizontalAlignment="Center">STOP</TextBox>
                         </Grid>
                         <Button Grid.Row="6" Grid.Column="1" x:Name="ButtonResetRequestedStop" Content="Reset Stop Anfrage" Visibility="{Binding  RemoteControlRequestsStop, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </Grid>
+                </TabItem>
+                <TabItem Header="SirParkAlot">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"></ColumnDefinition>
+                            <ColumnDefinition Width="349"></ColumnDefinition>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="60"></RowDefinition>
+                            <RowDefinition Height="10"></RowDefinition>
+                            <RowDefinition Height="41"></RowDefinition>
+                            <RowDefinition Height="45"></RowDefinition>
+                            <RowDefinition Height="44"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Row="1" Grid.Column="1" x:Name="ButtonStartParkingLotSearch">Starte Suche</Button>
+
+                        <TextBlock x:Name="FoundFreeParkingLots" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Margin="10,0,0,10" Width="340" Grid.RowSpan="4" Grid.ColumnSpan="2"></TextBlock>
+                        
                     </Grid>
                 </TabItem>
                 <!--<TabItem Header="AR.Drone autonom fliegen">
@@ -420,7 +446,7 @@
                 <!--<TextBlock x:Name="SelectedJoystick" ToolTip="{Binding SelectedJoystick}" Width="160" Background="{Binding SelectedJoystick, Converter={StaticResource StringToRedOrGreenConverter}}" />-->
                 <Label Content="Verbindung zu AR.Drone hergestellt." Background="Chartreuse" Visibility="{Binding ConnectedToFlyingRobot, Converter={StaticResource BoolToVisibilityConverter}}" Height="28" VerticalAlignment="Center"/>
                 <Label Content="Keine Verbindung zu AR.Drone hergestellt." Background="Red" Visibility="{Binding ConnectedToFlyingRobot, Converter={StaticResource BoolToVisibilityConverter},  ConverterParameter=VisibleOnFalse }" Height="28" VerticalAlignment="Center"/>
-                
+
                 <Label Content="Batterielevel:" HorizontalAlignment="Right" VerticalAlignment="Center" Width="75"/>
                 <Grid Height="28" Background="{Binding BatteryLevel, Converter={StaticResource BatteryValueToColorConverter}}" >
                     <TextBlock x:Name="BatteryLevel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" />
