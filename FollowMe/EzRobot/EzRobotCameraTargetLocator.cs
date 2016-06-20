@@ -44,8 +44,15 @@ namespace FollowMe.EzRobot
 
             if (objectLocation != null && objectLocation.IsObjectFound)
             {
-
-                targetLocation = GetTargetLocationFromObjectLocation(objectLocation);
+                if (objectLocation.HorizontalLocation == ObjectLocation.HorizontalLocationEnum.Left)
+                {
+                    targetLocation = TargetLocation.CenterLeft;
+                }
+                else if (objectLocation.HorizontalLocation == ObjectLocation.HorizontalLocationEnum.Right)
+                {
+                    targetLocation = TargetLocation.CenterRight;
+                }
+                //targetLocation = GetTargetLocationFromObjectLocation(objectLocation);
 
                 //TargetXCoordinate = objectLocation.CenterX;
                // Log.Info("Object detected: X = {0}", objectLocation.CenterX);

@@ -82,5 +82,9 @@ namespace FollowMe.Interfaces
         /// 
         /// </summary>
         void SetFlatTrim();
+
+        void SwitchVideoChannelToVertical();
+
+        
     }
 }
